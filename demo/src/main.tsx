@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createWorldsKitDataSource, WorldsKitApp } from "@wazootech/worlds-kit";
+import { createWorldsKitDataSource, WorldsKitApp } from "@wazoo/worlds-kit";
 import App from "./App";
 import "./styles.css";
 

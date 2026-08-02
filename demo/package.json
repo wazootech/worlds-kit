@@ -7,7 +7,7 @@
     "build": "tsc -b && vite build"
   },
   "dependencies": {
-    "@wazootech/worlds-kit": "file:..",
+    "@wazoo/worlds-kit": "file:..",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

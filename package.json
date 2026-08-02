@@ -1,5 +1,5 @@
 {
-  "name": "@wazootech/worlds-kit",
+  "name": "@wazoo/worlds-kit",
   "version": "0.1.0",
   "description": "A React component library for composing Worlds-backed interfaces with implicit persistence and master-detail selection.",
   "type": "module",

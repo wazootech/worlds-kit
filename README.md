@@ -17,7 +17,7 @@ A React composition library for building item-oriented interfaces on top of [Wor
 ## Quick start
 
 ```tsx
-import { createWorldsKitDataSource, DatasetSortable, Detail, SimpleRow, Source, Title, Todo, WorldsKitApp } from "@wazootech/worlds-kit";
+import { createWorldsKitDataSource, DatasetSortable, Detail, SimpleRow, Source, Title, Todo, WorldsKitApp } from "@wazoo/worlds-kit";
 
 const dataSource = createWorldsKitDataSource("https://your-worlds-endpoint.example");
 

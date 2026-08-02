@@ -1,4 +1,4 @@
-import { DatasetSortable, Detail, SimpleRow, Source, Title, Todo } from "@wazootech/worlds-kit";
+import { DatasetSortable, Detail, SimpleRow, Source, Title, Todo } from "@wazoo/worlds-kit";
 
 export default function App() {
   return <main id="todo-app">
