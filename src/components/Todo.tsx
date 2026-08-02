@@ -1,19 +1,16 @@
+import { ItemProvider } from "../context";
 import type { ItemTemplateProps } from "../types";
+import { Checkbox } from "./Checkbox";
+import { TextField } from "./TextField";
 
-export function Todo({ data, onChange }: ItemTemplateProps) {
+export function Todo({ data }: ItemTemplateProps) {
   if (!data) return null;
   return (
-    <div className="todo-row" data-completed={Boolean(data.completed)}>
-      <input
-        type="checkbox"
-        checked={Boolean(data.completed)}
-        onChange={(event) => void onChange?.({ completed: event.target.checked })}
-      />
-      <input
-        type="text"
-        value={data.title ?? ""}
-        onChange={(event) => void onChange?.({ title: event.target.value })}
-      />
-    </div>
+    <ItemProvider value={data.id}>
+      <div className="todo-row" data-completed={Boolean(data.completed)}>
+        <Checkbox itemId={data.id} />
+        <TextField itemId={data.id} property="title" />
+      </div>
+    </ItemProvider>
   );
 }

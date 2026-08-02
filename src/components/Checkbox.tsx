@@ -1,3 +1,4 @@
+import { useParentItem } from "../context";
 import { useBoundItem } from "./useBoundItem";
 
 export function Checkbox({
@@ -5,16 +6,24 @@ export function Checkbox({
   datasetId = "lists",
   parentId = "root",
 }: {
-  itemId: string;
+  itemId?: string;
   datasetId?: string;
   parentId?: string;
 }) {
-  const { item, update } = useBoundItem(itemId, datasetId, parentId);
+  const contextItemId = useParentItem();
+  const targetId = itemId ?? contextItemId;
+  if (!targetId) return null;
+
+  const { item, update } = useBoundItem(targetId, datasetId, parentId);
+  const isChecked = Boolean(item.completed ?? item.value);
+
   return (
     <input
       type="checkbox"
-      checked={Boolean(item.value)}
-      onChange={(event) => void update({ value: event.target.checked })}
+      checked={isChecked}
+      onChange={(event) =>
+        void update({ completed: event.target.checked, value: event.target.checked })
+      }
     />
   );
 }
