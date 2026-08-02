@@ -1,9 +1,9 @@
-import type { WorldsClient, WorldsQueryResult } from "./types";
+import type { WorldsKitDataSource, WorldsKitQueryResult } from "./types";
 
 const namespace = "https://wazoo.dev/worlds-kit/";
 const xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
 
-export function createWorldsClient(endpoint: string, token?: string): WorldsClient {
+export function createWorldsKitDataSource(endpoint: string, token?: string): WorldsKitDataSource {
   const requestHeaders = {
     Accept: "application/sparql-results+json, application/json",
     "Content-Type": "application/sparql-query",
@@ -43,7 +43,7 @@ export function sparqlValue(value: unknown) {
   return literal(value);
 }
 
-export function queryBindings<T>(result: WorldsQueryResult<T> | T[]): T[] {
+export function queryBindings<T>(result: WorldsKitQueryResult<T> | T[]): T[] {
   if (Array.isArray(result)) return result;
   return result.results ?? result.bindings ?? [];
 }

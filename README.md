@@ -6,24 +6,24 @@ A React composition library for building item-oriented interfaces on top of [Wor
 
 ## What is implemented
 
-- `WorldsKitApp`: provides a Worlds client, world ID, and implicit selection context.
+- `WorldsKitApp`: provides a WorldsKit data source, world ID, and implicit selection context.
 - `Dataset`: queries an ordered RDF collection and renders each result through a supplied React template.
 - `DatasetSortable`: adds drag-and-drop ordering and persists the resulting order as RDF mutations.
 - `Source` and `Detail`: provide master-detail composition without manually threading selected IDs through the tree.
 - `TextField`, `Checkbox`, and `Title`: item-bound primitives backed by SPARQL query/mutation operations.
 - `Todo` and `SimpleRow`: small templates used by the reference demo.
-- `createWorldsClient`: a minimal HTTP client for Worlds query and update endpoints. Inject a richer Worlds client when you need subscriptions or application-specific transport.
+- `createWorldsKitDataSource`: a minimal HTTP data-source adapter for Worlds query and update operations. Inject a richer WorldsKit data source when you need subscriptions or application-specific transport.
 
 ## Quick start
 
 ```tsx
-import { createWorldsClient, DatasetSortable, Detail, SimpleRow, Source, Title, Todo, WorldsKitApp } from "@wazootech/worlds-kit";
+import { createWorldsKitDataSource, DatasetSortable, Detail, SimpleRow, Source, Title, Todo, WorldsKitApp } from "@wazootech/worlds-kit";
 
-const client = createWorldsClient("https://your-worlds-endpoint.example");
+const dataSource = createWorldsKitDataSource("https://your-worlds-endpoint.example");
 
 export default function App() {
   return (
-    <WorldsKitApp worldId="my-world" client={client}>
+    <WorldsKitApp worldId="my-world" dataSource={dataSource}>
       <Source>
         <DatasetSortable itemId="lists" template={<SimpleRow editable />} addButton={<button>Add a list</button>} />
       </Source>
@@ -36,7 +36,7 @@ export default function App() {
 }
 ```
 
-The adapter uses RDF identifiers and predicates under the `https://wazoo.dev/worlds-kit/` namespace. The list/detail demo models list records as members of the `lists` dataset under `root`; todo records use the selected list item as their parent. The exact Worlds endpoint and authentication mechanism are intentionally injected through `WorldsClient` so the UI library does not own deployment or credentials.
+The adapter uses RDF identifiers and predicates under the `https://wazoo.dev/worlds-kit/` namespace. The list/detail demo models list records as members of the `lists` dataset under `root`; todo records use the selected list item as their parent. The exact Worlds endpoint and authentication mechanism are intentionally injected through `WorldsKitDataSource` so the UI library does not own deployment or credentials.
 
 ## Demo
 
@@ -50,10 +50,10 @@ The demo expects a Worlds-compatible HTTP endpoint in `VITE_WORLDS_ENDPOINT` and
 
 ## Worlds adapter contract
 
-`WorldsClient` has three operations:
+`WorldsKitDataSource` has three operations:
 
 ```ts
-export type WorldsClient = {
+export type WorldsKitDataSource = {
   query: <T = unknown>(sparql: string, options?: { signal?: AbortSignal }) => Promise<T>;
   mutate: <T = unknown>(update: string, options?: { signal?: AbortSignal }) => Promise<T>;
   subscribe?: <T = unknown>(sparql: string, onData: (data: T) => void, onError: (error: Error) => void) => () => void;
@@ -64,7 +64,7 @@ export type WorldsClient = {
 
 ## Scope and limitations
 
-This first Worlds-backed implementation mirrors the demonstrated interaction model, not undisclosed internals. It does not yet provide authentication, authorization policy, schema validation, deletion UI, offline conflict resolution, mutation history, or a public package release workflow. Production applications must supply a properly scoped Worlds client and enforce authorization in the Worlds service.
+This first Worlds-backed implementation mirrors the demonstrated interaction model, not undisclosed internals. It does not yet provide authentication, authorization policy, schema validation, deletion UI, offline conflict resolution, mutation history, or a public package release workflow. Production applications must supply a properly scoped WorldsKit data source and enforce authorization in the Worlds service.
 
 The later item graph, references, views, actions, services, mutations, modules, and fluid interaction roadmap remains intentionally separate from this compatibility foundation. See `ROADMAP.md` for the proposed next steps and the corresponding Lab Note references.
 

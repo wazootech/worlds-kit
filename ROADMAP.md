@@ -2,7 +2,7 @@
 
 **Status:** Proposed roadmap for the Worlds-backed implementation.
 
-WorldsKit's foundation is the Lab Note 001 interaction model: item-bound components, datasets, sorting, add actions, and implicit `Source`/`Detail` composition. Worlds supplies the RDF-native graph, SPARQL query/update surface, and—when the injected client supports it—live result subscriptions. This roadmap extends that narrow compatibility foundation into a complete item-oriented framework without pretending that Alexander Obenauer's later Lab Notes are a formal API specification.
+WorldsKit's foundation is the Lab Note 001 interaction model: item-bound components, datasets, sorting, add actions, and implicit `Source`/`Detail` composition. Worlds supplies the RDF-native graph and the shared SPARQL query/update endpoint; when the injected data source supports it, WorldsKit can also consume live result subscriptions. This roadmap extends that narrow compatibility foundation into a complete item-oriented framework without pretending that Alexander Obenauer's later Lab Notes are a formal API specification.
 
 ## Roadmap at a glance
 

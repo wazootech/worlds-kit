@@ -21,15 +21,15 @@ export type DatasetProps = {
   emptyState?: ReactElement | string | null;
 };
 
-export type WorldsSubscription = () => void;
-export type WorldsBinding = Record<string, unknown>;
-export type WorldsQueryResult<T = WorldsBinding> = {
+export type WorldsKitSubscription = () => void;
+export type WorldsKitBinding = Record<string, unknown>;
+export type WorldsKitQueryResult<T = WorldsKitBinding> = {
   results?: T[];
   bindings?: T[];
 };
 
-export type WorldsClient = {
-  query<T = WorldsQueryResult>(sparql: string, options?: { signal?: AbortSignal }): Promise<T>;
+export type WorldsKitDataSource = {
+  query<T = WorldsKitQueryResult>(sparql: string, options?: { signal?: AbortSignal }): Promise<T>;
   mutate<T = unknown>(update: string, options?: { signal?: AbortSignal }): Promise<T>;
-  subscribe?<T = WorldsQueryResult>(sparql: string, onData: (result: T) => void, onError: (error: Error) => void): WorldsSubscription;
+  subscribe?<T = WorldsKitQueryResult>(sparql: string, onData: (result: T) => void, onError: (error: Error) => void): WorldsKitSubscription;
 };
