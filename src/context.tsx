@@ -1,13 +1,13 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import type { WorldsClient } from "./types";
+import type { WorldsKitDataSource } from "./types";
 
-type WorldsKitState = { worldId: string; client: WorldsClient; activeSourceId: string | null; setActiveSourceId: (id: string | null) => void };
+type WorldsKitState = { worldId: string; dataSource: WorldsKitDataSource; activeSourceId: string | null; setActiveSourceId: (id: string | null) => void };
 const WorldsKitContext = createContext<WorldsKitState | null>(null);
 const ItemContext = createContext<string | null>(null);
 
-export function WorldsKitApp({ worldId, client, children }: { worldId: string; client: WorldsClient; children: ReactNode }) {
+export function WorldsKitApp({ worldId, dataSource, children }: { worldId: string; dataSource: WorldsKitDataSource; children: ReactNode }) {
   const [activeSourceId, setActiveSourceId] = useState<string | null>(null);
-  return <WorldsKitContext.Provider value={{ worldId, client, activeSourceId, setActiveSourceId }}>{children}</WorldsKitContext.Provider>;
+  return <WorldsKitContext.Provider value={{ worldId, dataSource, activeSourceId, setActiveSourceId }}>{children}</WorldsKitContext.Provider>;
 }
 
 export function useWorldsKit() {

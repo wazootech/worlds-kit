@@ -4,24 +4,24 @@ import { addDatasetItem, subscribeToDataset, subscribeToDatasetItem, updateDatas
 import type { DatasetProps, ItemTemplateProps, ItemUpdates, WorldsKitItem } from "./types";
 
 function useItems(datasetId: string, parentId: string | null) {
-  const { worldId, client } = useWorldsKit();
+  const { worldId, dataSource } = useWorldsKit();
   const resolvedParentId = parentId ?? "root";
   const [items, setItems] = useState<WorldsKitItem[]>([]);
   const [error, setError] = useState<Error | null>(null);
   useEffect(() => {
     setError(null);
-    return subscribeToDataset(client, worldId, resolvedParentId, datasetId, setItems, setError);
-  }, [client, datasetId, resolvedParentId, worldId]);
+    return subscribeToDataset(dataSource, worldId, resolvedParentId, datasetId, setItems, setError);
+  }, [dataSource, datasetId, resolvedParentId, worldId]);
   return { items, error };
 }
 
 function DatasetView({ template, addButton, itemId = "default", isSource, onSelect, selectedId, sortable = false, className = "", emptyState = null }: DatasetProps & { sortable?: boolean }) {
   const parentId = useParentItem();
-  const { worldId, client } = useWorldsKit();
+  const { worldId, dataSource } = useWorldsKit();
   const { items, error } = useItems(itemId, parentId);
   const [draggedId, setDraggedId] = useState<string | null>(null);
-  const add = async () => { await addDatasetItem(client, worldId, parentId ?? "root", itemId, items.length); };
-  const update = async (id: string, updates: ItemUpdates) => { await updateDatasetItem(client, worldId, parentId ?? "root", itemId, id, updates); };
+  const add = async () => { await addDatasetItem(dataSource, worldId, parentId ?? "root", itemId, items.length); };
+  const update = async (id: string, updates: ItemUpdates) => { await updateDatasetItem(dataSource, worldId, parentId ?? "root", itemId, id, updates); };
   const reorder = async (fromId: string, toId: string) => {
     if (fromId === toId) return;
     const fromIndex = items.findIndex(item => item.id === fromId);
@@ -31,7 +31,7 @@ function DatasetView({ template, addButton, itemId = "default", isSource, onSele
     const [moved] = next.splice(fromIndex, 1);
     if (!moved) return;
     next.splice(toIndex, 0, moved);
-    await updateDatasetOrder(client, worldId, parentId ?? "root", itemId, next.map(item => item.id));
+    await updateDatasetOrder(dataSource, worldId, parentId ?? "root", itemId, next.map(item => item.id));
   };
   if (error) return <div role="alert">Unable to load this dataset: {error.message}</div>;
   return <div className={`worlds-kit-dataset ${className}`}>
@@ -51,10 +51,10 @@ export function Source({ children }: { children: ReactElement<DatasetProps> }) {
 export function Detail({ children }: { children: ReactNode }) { const { activeSourceId } = useWorldsKit(); if (!activeSourceId) return <div className="worlds-kit-empty-state">Select an item...</div>; return <ItemProvider value={activeSourceId}>{children}</ItemProvider>; }
 
 function useBoundItem(itemId: string, datasetId: string, parentId: string) {
-  const { client, worldId } = useWorldsKit();
+  const { dataSource, worldId } = useWorldsKit();
   const [item, setItem] = useState<WorldsKitItem>({ id: itemId });
-  useEffect(() => subscribeToDatasetItem(client, worldId, parentId, datasetId, itemId, value => value && setItem(value), () => {}), [client, datasetId, itemId, parentId, worldId]);
-  return { item, update: (updates: ItemUpdates) => updateDatasetItem(client, worldId, parentId, datasetId, itemId, updates) };
+  useEffect(() => subscribeToDatasetItem(dataSource, worldId, parentId, datasetId, itemId, value => value && setItem(value), () => {}), [dataSource, datasetId, itemId, parentId, worldId]);
+  return { item, update: (updates: ItemUpdates) => updateDatasetItem(dataSource, worldId, parentId, datasetId, itemId, updates) };
 }
 
 export function TextField({ itemId, datasetId = "lists", parentId = "root", placeholder = "" }: { itemId: string; datasetId?: string; parentId?: string; placeholder?: string }) { const { item, update } = useBoundItem(itemId, datasetId, parentId); return <input value={String(item.value ?? "")} placeholder={placeholder} onChange={event => void update({ value: event.target.value })} />; }
