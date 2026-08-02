@@ -1,26 +1,97 @@
-import type { WorldsKitDataSource, WorldsKitQueryResult } from "./types";
+import type { WorldsKitDataSource, WorldsKitDataSourceOptions, WorldsKitQueryResult } from "./types";
 
-const namespace = "https://wazoo.dev/worlds-kit/";
+const namespace = "https://kit.wazoo.dev/";
 const xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
 
-export function createWorldsKitDataSource(endpoint: string, token?: string): WorldsKitDataSource {
+export type CreateDataSourceOptions = {
+  token?: string;
+  worldId?: string;
+};
+
+export function createWorldsKitDataSource(
+  endpoint: string,
+  tokenOrOptions?: string | CreateDataSourceOptions,
+  options?: CreateDataSourceOptions
+): WorldsKitDataSource {
+  const token = typeof tokenOrOptions === "string" ? tokenOrOptions : tokenOrOptions?.token;
+  const defaultWorldId = typeof tokenOrOptions === "object" ? tokenOrOptions?.worldId : options?.worldId;
+
   const requestHeaders = {
     Accept: "application/sparql-results+json, application/json",
-    "Content-Type": "application/sparql-query",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
 
+  const resolveUrl = (targetWorldId?: string) => {
+    let url = endpoint.replace(/\/+$/, "");
+    if (!url.includes("/sparql")) {
+      const worldId = targetWorldId || defaultWorldId;
+      if (worldId) {
+        url = `${url}/worlds/${encodeURIComponent(worldId)}/sparql`;
+      }
+    }
+    return url;
+  };
+
   return {
-    async query<T>(sparql: string, options?: { signal?: AbortSignal }) {
-      const response = await fetch(endpoint, { method: "POST", headers: requestHeaders, body: sparql, signal: options?.signal });
+    async query<T>(sparql: string, options?: WorldsKitDataSourceOptions) {
+      const url = resolveUrl(options?.worldId);
+      const isWorldsApi = url.includes("/worlds/");
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          ...requestHeaders,
+          "Content-Type": isWorldsApi ? "application/json" : "application/sparql-query",
+        },
+        body: isWorldsApi ? JSON.stringify({ query: sparql }) : sparql,
+        signal: options?.signal,
+      });
       if (!response.ok) throw new Error(`Worlds query failed (${response.status})`);
       return await response.json() as T;
     },
-    async mutate<T>(update: string, options?: { signal?: AbortSignal }) {
-      const response = await fetch(endpoint, { method: "POST", headers: { ...requestHeaders, Accept: "application/json" }, body: update, signal: options?.signal });
+    async mutate<T>(update: string, options?: WorldsKitDataSourceOptions) {
+      const url = resolveUrl(options?.worldId);
+      const isWorldsApi = url.includes("/worlds/");
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          ...requestHeaders,
+          Accept: "application/json",
+          "Content-Type": isWorldsApi ? "application/json" : "application/sparql-query",
+        },
+        body: isWorldsApi ? JSON.stringify({ query: update }) : update,
+        signal: options?.signal,
+      });
       if (!response.ok) throw new Error(`Worlds mutation failed (${response.status})`);
       const responseText = await response.text();
       return (responseText ? JSON.parse(responseText) : undefined) as T;
+    },
+    subscribe<T = WorldsKitQueryResult>(
+      sparql: string,
+      onData: (result: T) => void,
+      onError: (error: Error) => void,
+      options?: WorldsKitDataSourceOptions & { pollIntervalMs?: number }
+    ) {
+      let active = true;
+      const pollInterval = options?.pollIntervalMs ?? 3000;
+
+      const run = async () => {
+        try {
+          const data = await this.query<T>(sparql, options);
+          if (active) onData(data);
+        } catch (err) {
+          if (active && (err as Error).name !== "AbortError") {
+            onError(err as Error);
+          }
+        }
+      };
+
+      void run();
+      const timer = setInterval(() => { void run(); }, pollInterval);
+
+      return () => {
+        active = false;
+        clearInterval(timer);
+      };
     },
   };
 }
@@ -43,9 +114,13 @@ export function sparqlValue(value: unknown) {
   return literal(value);
 }
 
-export function queryBindings<T>(result: WorldsKitQueryResult<T> | T[]): T[] {
+export function queryBindings<T = Record<string, unknown>>(result: any): T[] {
+  if (!result) return [];
   if (Array.isArray(result)) return result;
-  return result.results ?? result.bindings ?? [];
+  if (Array.isArray(result.results?.bindings)) return result.results.bindings;
+  if (Array.isArray(result.results)) return result.results;
+  if (Array.isArray(result.bindings)) return result.bindings;
+  return [];
 }
 
 export function bindingValue(value: unknown): unknown {

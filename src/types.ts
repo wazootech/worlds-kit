@@ -28,8 +28,18 @@ export type WorldsKitQueryResult<T = WorldsKitBinding> = {
   bindings?: T[];
 };
 
+export type WorldsKitDataSourceOptions = {
+  signal?: AbortSignal;
+  worldId?: string;
+};
+
 export type WorldsKitDataSource = {
-  query<T = WorldsKitQueryResult>(sparql: string, options?: { signal?: AbortSignal }): Promise<T>;
-  mutate<T = unknown>(update: string, options?: { signal?: AbortSignal }): Promise<T>;
-  subscribe?<T = WorldsKitQueryResult>(sparql: string, onData: (result: T) => void, onError: (error: Error) => void): WorldsKitSubscription;
+  query<T = WorldsKitQueryResult>(sparql: string, options?: WorldsKitDataSourceOptions): Promise<T>;
+  mutate<T = unknown>(update: string, options?: WorldsKitDataSourceOptions): Promise<T>;
+  subscribe?<T = WorldsKitQueryResult>(
+    sparql: string,
+    onData: (result: T) => void,
+    onError: (error: Error) => void,
+    options?: WorldsKitDataSourceOptions
+  ): WorldsKitSubscription;
 };

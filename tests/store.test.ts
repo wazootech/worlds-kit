@@ -14,11 +14,11 @@ function fakeClient(result: unknown = { bindings: [] }) {
 }
 
 test("queries an ordered RDF dataset and normalizes SPARQL bindings", async () => {
-  const { dataSource, queries } = fakeClient({ bindings: [{ id: { value: "https://wazoo.dev/worlds-kit/world/demo/item/task-1" }, title: { value: "Ship it" }, completed: { value: "false" }, orderIndex: { value: "2" } }] });
+  const { dataSource, queries } = fakeClient({ bindings: [{ id: { value: "https://kit.wazoo.dev/world/demo/item/task-1" }, title: { value: "Ship it" }, completed: { value: "false" }, orderIndex: { value: "2" } }] });
   let items = [] as Awaited<ReturnType<typeof Promise.resolve>>[];
   subscribeToDataset(dataSource, "demo", "root", "tasks", value => { items = value; }, assert.fail);
   await new Promise(resolve => setImmediate(resolve));
-  assert.match(queries[0]!, /ORDER BY \?orderIndex/);
+  assert.match(queries[0]!, /ORDER BY COALESCE\(\?orderIndex, 0\)/);
   assert.deepEqual(items, [{ id: "task-1", title: "Ship it", completed: false, orderIndex: 2, value: undefined }]);
 });
 
@@ -27,8 +27,8 @@ test("updates only the requested RDF predicates", async () => {
   await updateItem(dataSource, "demo", "task-1", { title: "Done", completed: true });
   assert.equal(mutations.length, 1);
   assert.match(mutations[0]!, /DELETE/);
-  assert.match(mutations[0]!, /https:\/\/wazoo.dev\/worlds-kit\/title/);
-  assert.match(mutations[0]!, /https:\/\/wazoo.dev\/worlds-kit\/completed/);
+  assert.match(mutations[0]!, /https:\/\/kit.wazoo.dev\/title/);
+  assert.match(mutations[0]!, /https:\/\/kit.wazoo.dev\/completed/);
   assert.doesNotMatch(mutations[0]!, /<[^>]+> \?predicate/);
 });
 
@@ -37,5 +37,5 @@ test("creates a new item in the named RDF dataset", async () => {
   const result = await addDatasetItem(dataSource, "demo", "root", "tasks", 0);
   assert.match(result.id, /^[0-9a-f-]{36}$/);
   assert.match(mutations[0]!, /INSERT DATA/);
-  assert.match(mutations[0]!, /worlds-kit\/world\/demo\/dataset\/tasks/);
+  assert.match(mutations[0]!, /kit.wazoo.dev\/world\/demo\/dataset\/tasks/);
 });
