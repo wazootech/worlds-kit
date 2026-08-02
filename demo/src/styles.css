@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap");
+
+:root { color: #eeeae3; background: #171817; font-family: "DM Sans", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+button, input { color: inherit; font: inherit; }
+button { cursor: pointer; }
+#todo-app { display: grid; grid-template-columns: 260px minmax(0, 1fr); min-height: 100vh; }
+.source-list { background: #202220; border-right: 1px solid #3a3d38; padding: 2rem 1rem; }
+.source-list .worlds-kit-dataset-items { display: grid; gap: .35rem; }
+.source-list .worlds-kit-item { border-radius: .45rem; padding: .65rem .8rem; }
+.source-list .worlds-kit-item:hover, .source-list .worlds-kit-item[data-selected="true"] { background: #30362f; }
+.source-list .worlds-kit-item[data-selected="true"] { color: #b3d49c; font-weight: 700; }
+.detail-view { max-width: 760px; padding: 8vh clamp(1.5rem, 8vw, 8rem); }
+.detail-view h1 { color: #f0eee8; font-size: clamp(2rem, 5vw, 4rem); margin: 0 0 2.5rem; }
+.worlds-kit-dataset { display: grid; gap: .6rem; }
+.worlds-kit-dataset-items { display: grid; gap: .6rem; }
+.worlds-kit-item { transition: background .15s ease, transform .15s ease; }
+.worlds-kit-item[draggable="true"] { cursor: grab; }
+.worlds-kit-item[draggable="true"]:active { cursor: grabbing; }
+.todo-row { align-items: center; display: flex; gap: .75rem; padding: .25rem 0; }
+.todo-row input[type="text"], .simple-row input { background: transparent; border: 0; outline: 0; padding: .35rem 0; width: 100%; }
+.todo-row input[type="text"]:focus, .simple-row input:focus { border-bottom: 1px solid #78976e; }
+.todo-row[data-completed="true"] input[type="text"] { color: #8e938b; text-decoration: line-through; }
+.add-todo, .big { background: transparent; border: 0; color: #8e938b; padding: .8rem 0; text-align: left; }
+.add-todo:hover, .big:hover { color: #b3d49c; }
+.big { background: #30362f; border-radius: .4rem; color: #d6e7cc; margin-bottom: 1rem; padding: .65rem .8rem; width: 100%; }
+.empty-state { color: #8e938b; padding-top: 25vh; }
+.worlds-kit-error { color: #ffb4ab; }
+@media (max-width: 650px) { #todo-app { grid-template-columns: 1fr; } .source-list { border-bottom: 1px solid #3a3d38; border-right: 0; } .detail-view { padding: 3rem 1.25rem; } }
