@@ -20,22 +20,26 @@
     "check": "tsc --noEmit -p tsconfig.library.json",
     "format": "prettier \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" --write",
     "format:check": "prettier \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" --check",
+    "lint": "eslint .",
     "build": "tsc -p tsconfig.library.json",
     "test": "tsx --test tests/*.test.ts",
-    "ci": "npm run format:check && npm run check && npm test && npm run build"
+    "ci": "npm run format:check && npm run lint && npm run check && npm test && npm run build"
   },
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18"
   },
   "devDependencies": {
+    "@eslint/js": "^9.20.0",
     "@types/node": "^24.0.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
+    "eslint": "^9.20.0",
     "prettier": "^3.9.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.24.0"
   }
 }

@@ -9,10 +9,7 @@ import {
   useSelectedItem,
   useWorldsKit,
 } from "../src/context";
-import { Checkbox } from "../src/components/Checkbox";
 import { SimpleRow } from "../src/components/SimpleRow";
-import { TextField } from "../src/components/TextField";
-import { Title } from "../src/components/Title";
 import { Todo } from "../src/components/Todo";
 import type { WorldsKitDataSource } from "../src/types";
 
