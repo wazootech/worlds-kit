@@ -2,7 +2,13 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { ItemProvider, WorldsKitApp, useParentItem, useSelectedItem, useWorldsKit } from "../src/context";
+import {
+  ItemProvider,
+  WorldsKitApp,
+  useParentItem,
+  useSelectedItem,
+  useWorldsKit,
+} from "../src/context";
 import { Checkbox } from "../src/components/Checkbox";
 import { SimpleRow } from "../src/components/SimpleRow";
 import { TextField } from "../src/components/TextField";
@@ -38,8 +44,12 @@ test("ItemProvider passes item ID through context", () => {
     createElement(
       WorldsKitApp,
       { worldId: "test-world", dataSource: mockDataSource },
-      createElement(ItemProvider, { value: "item-xyz" }, createElement(Consumer))
-    )
+      createElement(
+        ItemProvider,
+        { value: "item-xyz" },
+        createElement(Consumer),
+      ),
+    ),
   );
 
   assert.equal(capturedId, "item-xyz");
@@ -48,12 +58,15 @@ test("ItemProvider passes item ID through context", () => {
 
 test("SimpleRow renders static and editable title markup", () => {
   const staticHtml = renderToStaticMarkup(
-    createElement(SimpleRow, { data: { id: "item-1", title: "My Task" } })
+    createElement(SimpleRow, { data: { id: "item-1", title: "My Task" } }),
   );
   assert.match(staticHtml, /<span[^>]*>My Task<\/span>/);
 
   const editableHtml = renderToStaticMarkup(
-    createElement(SimpleRow, { data: { id: "item-1", title: "My Task" }, editable: true })
+    createElement(SimpleRow, {
+      data: { id: "item-1", title: "My Task" },
+      editable: true,
+    }),
   );
   assert.match(editableHtml, /<input[^>]*value="My Task"[^>]*\/>/);
 });
@@ -63,8 +76,10 @@ test("Todo component composes Checkbox and TextField inside ItemProvider", () =>
     createElement(
       WorldsKitApp,
       { worldId: "test-world", dataSource: mockDataSource },
-      createElement(Todo, { data: { id: "item-todo-1", title: "Buy Milk", completed: true } })
-    )
+      createElement(Todo, {
+        data: { id: "item-todo-1", title: "Buy Milk", completed: true },
+      }),
+    ),
   );
 
   assert.match(html, /class="todo-row"/);

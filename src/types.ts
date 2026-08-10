@@ -9,7 +9,10 @@ export type WorldsKitItem = {
 };
 
 export type ItemUpdates = Record<string, unknown>;
-export type ItemTemplateProps = { data?: WorldsKitItem; onChange?: (updates: ItemUpdates) => void };
+export type ItemTemplateProps = {
+  data?: WorldsKitItem;
+  onChange?: (updates: ItemUpdates) => void;
+};
 export type DatasetProps = {
   itemId?: string;
   template: ReactElement<ItemTemplateProps>;
@@ -34,12 +37,18 @@ export type WorldsKitDataSourceOptions = {
 };
 
 export type WorldsKitDataSource = {
-  query<T = WorldsKitQueryResult>(sparql: string, options?: WorldsKitDataSourceOptions): Promise<T>;
-  mutate<T = unknown>(update: string, options?: WorldsKitDataSourceOptions): Promise<T>;
+  query<T = WorldsKitQueryResult>(
+    sparql: string,
+    options?: WorldsKitDataSourceOptions,
+  ): Promise<T>;
+  mutate<T = unknown>(
+    update: string,
+    options?: WorldsKitDataSourceOptions,
+  ): Promise<T>;
   subscribe?<T = WorldsKitQueryResult>(
     sparql: string,
     onData: (result: T) => void,
     onError: (error: Error) => void,
-    options?: WorldsKitDataSourceOptions
+    options?: WorldsKitDataSourceOptions,
   ): WorldsKitSubscription;
 };

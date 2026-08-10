@@ -1,6 +1,10 @@
 import { cloneElement, useState } from "react";
 import { useParentItem, useWorldsKit } from "../context";
-import { addDatasetItem, updateDatasetItem, updateDatasetOrder } from "../store";
+import {
+  addDatasetItem,
+  updateDatasetItem,
+  updateDatasetOrder,
+} from "../store";
 import type { DatasetProps, ItemUpdates } from "../types";
 import { useItems } from "./useItems";
 
@@ -21,11 +25,24 @@ function DatasetView({
   const [draggedId, setDraggedId] = useState<string | null>(null);
 
   const add = async () => {
-    await addDatasetItem(dataSource, worldId, parentId ?? "root", itemId, items.length);
+    await addDatasetItem(
+      dataSource,
+      worldId,
+      parentId ?? "root",
+      itemId,
+      items.length,
+    );
   };
 
   const update = async (id: string, updates: ItemUpdates) => {
-    await updateDatasetItem(dataSource, worldId, parentId ?? "root", itemId, id, updates);
+    await updateDatasetItem(
+      dataSource,
+      worldId,
+      parentId ?? "root",
+      itemId,
+      id,
+      updates,
+    );
   };
 
   const reorder = async (fromId: string, toId: string) => {
@@ -42,7 +59,7 @@ function DatasetView({
       worldId,
       parentId ?? "root",
       itemId,
-      next.map((item) => item.id)
+      next.map((item) => item.id),
     );
   };
 

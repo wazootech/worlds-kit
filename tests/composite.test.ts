@@ -18,9 +18,13 @@ test("Dataset renders empty state when items list is empty", () => {
       createElement(Dataset, {
         itemId: "lists",
         template: createElement("div", null, "Template"),
-        emptyState: createElement("p", { className: "empty" }, "No items found"),
-      })
-    )
+        emptyState: createElement(
+          "p",
+          { className: "empty" },
+          "No items found",
+        ),
+      }),
+    ),
   );
 
   assert.match(html, /class="worlds-kit-dataset/);
@@ -35,8 +39,8 @@ test("DatasetSortable applies draggable attribute", () => {
       createElement(DatasetSortable, {
         itemId: "lists",
         template: createElement("div", null, "Template"),
-      })
-    )
+      }),
+    ),
   );
 
   assert.match(html, /class="worlds-kit-dataset/);
@@ -47,8 +51,8 @@ test("Detail renders placeholder message when no item is selected", () => {
     createElement(
       WorldsKitApp,
       { worldId: "demo-world", dataSource: mockDataSource },
-      createElement(Detail, null, createElement("div", null, "Detail Content"))
-    )
+      createElement(Detail, null, createElement("div", null, "Detail Content")),
+    ),
   );
 
   assert.match(html, /Select an item\.\.\./);
@@ -66,9 +70,9 @@ test("Source wraps children with selection handlers", () => {
         createElement(Dataset, {
           itemId: "lists",
           template: createElement("div", null, "Template"),
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
 
   assert.match(html, /worlds-kit-dataset/);
