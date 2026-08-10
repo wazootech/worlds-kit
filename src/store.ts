@@ -26,7 +26,7 @@ function normalizeTerm(value: unknown) {
   return String(bindingValue(value) ?? "");
 }
 
-function itemIdFromIri(value: unknown, worldId: string) {
+function itemIdFromIri(value: unknown, _worldId: string) {
   const rawId = normalizeTerm(value).replace(/^<|>$/g, "");
   const itemMarker = "/item/";
   const markerIndex = rawId.indexOf(itemMarker);
@@ -116,7 +116,7 @@ export function addDatasetItem(
   const subject = encodeIri(itemIri(worldId, id));
   const parent = encodeIri(itemIri(worldId, parentId));
   const dataset = encodeIri(datasetIri(worldId, datasetId));
-  const insert = `INSERT DATA { ${subject} <${predicateIri("inDataset")}> ${dataset} ; <${predicateIri("parent")}> ${parent} ; <${predicateIri("title")}> \"\" ; <${predicateIri("completed")}> ${literal(false)} ; <${predicateIri("orderIndex")}> ${literal(orderIndex)} ; <${predicateIri("createdAt")}> ${literal(new Date())} }`;
+  const insert = `INSERT DATA { ${subject} <${predicateIri("inDataset")}> ${dataset} ; <${predicateIri("parent")}> ${parent} ; <${predicateIri("title")}> "" ; <${predicateIri("completed")}> ${literal(false)} ; <${predicateIri("orderIndex")}> ${literal(orderIndex)} ; <${predicateIri("createdAt")}> ${literal(new Date())} }`;
   return dataSource.mutate(insert, { worldId }).then(() => ({ id }));
 }
 
