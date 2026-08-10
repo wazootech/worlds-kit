@@ -22,7 +22,10 @@ export function Checkbox({
       type="checkbox"
       checked={isChecked}
       onChange={(event) =>
-        void update({ completed: event.target.checked, value: event.target.checked })
+        void update({
+          completed: event.target.checked,
+          value: event.target.checked,
+        })
       }
     />
   );

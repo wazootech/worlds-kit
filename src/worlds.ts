@@ -1,4 +1,8 @@
-import type { WorldsKitDataSource, WorldsKitDataSourceOptions, WorldsKitQueryResult } from "./types";
+import type {
+  WorldsKitDataSource,
+  WorldsKitDataSourceOptions,
+  WorldsKitQueryResult,
+} from "./types";
 
 const namespace = "https://kit.wazoo.dev/";
 const xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
@@ -11,10 +15,14 @@ export type CreateDataSourceOptions = {
 export function createWorldsKitDataSource(
   endpoint: string,
   tokenOrOptions?: string | CreateDataSourceOptions,
-  options?: CreateDataSourceOptions
+  options?: CreateDataSourceOptions,
 ): WorldsKitDataSource {
-  const token = typeof tokenOrOptions === "string" ? tokenOrOptions : tokenOrOptions?.token;
-  const defaultWorldId = typeof tokenOrOptions === "object" ? tokenOrOptions?.worldId : options?.worldId;
+  const token =
+    typeof tokenOrOptions === "string" ? tokenOrOptions : tokenOrOptions?.token;
+  const defaultWorldId =
+    typeof tokenOrOptions === "object"
+      ? tokenOrOptions?.worldId
+      : options?.worldId;
 
   const requestHeaders = {
     Accept: "application/sparql-results+json, application/json",
@@ -40,13 +48,16 @@ export function createWorldsKitDataSource(
         method: "POST",
         headers: {
           ...requestHeaders,
-          "Content-Type": isWorldsApi ? "application/json" : "application/sparql-query",
+          "Content-Type": isWorldsApi
+            ? "application/json"
+            : "application/sparql-query",
         },
         body: isWorldsApi ? JSON.stringify({ query: sparql }) : sparql,
         signal: options?.signal,
       });
-      if (!response.ok) throw new Error(`Worlds query failed (${response.status})`);
-      return await response.json() as T;
+      if (!response.ok)
+        throw new Error(`Worlds query failed (${response.status})`);
+      return (await response.json()) as T;
     },
     async mutate<T>(update: string, options?: WorldsKitDataSourceOptions) {
       const url = resolveUrl(options?.worldId);
@@ -56,12 +67,15 @@ export function createWorldsKitDataSource(
         headers: {
           ...requestHeaders,
           Accept: "application/json",
-          "Content-Type": isWorldsApi ? "application/json" : "application/sparql-query",
+          "Content-Type": isWorldsApi
+            ? "application/json"
+            : "application/sparql-query",
         },
         body: isWorldsApi ? JSON.stringify({ query: update }) : update,
         signal: options?.signal,
       });
-      if (!response.ok) throw new Error(`Worlds mutation failed (${response.status})`);
+      if (!response.ok)
+        throw new Error(`Worlds mutation failed (${response.status})`);
       const responseText = await response.text();
       return (responseText ? JSON.parse(responseText) : undefined) as T;
     },
@@ -69,7 +83,7 @@ export function createWorldsKitDataSource(
       sparql: string,
       onData: (result: T) => void,
       onError: (error: Error) => void,
-      options?: WorldsKitDataSourceOptions & { pollIntervalMs?: number }
+      options?: WorldsKitDataSourceOptions & { pollIntervalMs?: number },
     ) {
       let active = true;
       const pollInterval = options?.pollIntervalMs ?? 3000;
@@ -86,7 +100,9 @@ export function createWorldsKitDataSource(
       };
 
       void run();
-      const timer = setInterval(() => { void run(); }, pollInterval);
+      const timer = setInterval(() => {
+        void run();
+      }, pollInterval);
 
       return () => {
         active = false;
@@ -96,21 +112,34 @@ export function createWorldsKitDataSource(
   };
 }
 
-export function worldIri(worldId: string) { return `${namespace}world/${encodeURIComponent(worldId)}`; }
-export function itemIri(worldId: string, id: string) { return `${worldIri(worldId)}/item/${encodeURIComponent(id)}`; }
-export function datasetIri(worldId: string, id: string) { return `${worldIri(worldId)}/dataset/${encodeURIComponent(id)}`; }
-export function predicateIri(name: string) { return `${namespace}${encodeURIComponent(name)}`; }
-export function encodeIri(iri: string) { return `<${iri.replace(/[<>\s]/g, "")}>`; }
+export function worldIri(worldId: string) {
+  return `${namespace}world/${encodeURIComponent(worldId)}`;
+}
+export function itemIri(worldId: string, id: string) {
+  return `${worldIri(worldId)}/item/${encodeURIComponent(id)}`;
+}
+export function datasetIri(worldId: string, id: string) {
+  return `${worldIri(worldId)}/dataset/${encodeURIComponent(id)}`;
+}
+export function predicateIri(name: string) {
+  return `${namespace}${encodeURIComponent(name)}`;
+}
+export function encodeIri(iri: string) {
+  return `<${iri.replace(/[<>\s]/g, "")}>`;
+}
 
 export function literal(value: unknown): string {
   if (typeof value === "boolean") return `"${value}"^^<${xsdNamespace}boolean>`;
-  if (typeof value === "number" && Number.isFinite(value)) return `"${value}"^^<${xsdNamespace}${Number.isInteger(value) ? "integer" : "double"}>`;
-  if (value instanceof Date) return `"${value.toISOString()}"^^<${xsdNamespace}dateTime>`;
+  if (typeof value === "number" && Number.isFinite(value))
+    return `"${value}"^^<${xsdNamespace}${Number.isInteger(value) ? "integer" : "double"}>`;
+  if (value instanceof Date)
+    return `"${value.toISOString()}"^^<${xsdNamespace}dateTime>`;
   return JSON.stringify(String(value ?? ""));
 }
 
 export function sparqlValue(value: unknown) {
-  if (typeof value === "string" && /^https?:\/\//.test(value)) return encodeIri(value);
+  if (typeof value === "string" && /^https?:\/\//.test(value))
+    return encodeIri(value);
   return literal(value);
 }
 
@@ -124,6 +153,7 @@ export function queryBindings<T = Record<string, unknown>>(result: any): T[] {
 }
 
 export function bindingValue(value: unknown): unknown {
-  if (typeof value === "object" && value !== null && "value" in value) return (value as { value: unknown }).value;
+  if (typeof value === "object" && value !== null && "value" in value)
+    return (value as { value: unknown }).value;
   return value;
 }

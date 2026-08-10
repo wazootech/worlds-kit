@@ -19,7 +19,8 @@ export function TextField({
   if (!targetId) return null;
 
   const { item, update } = useBoundItem(targetId, datasetId, parentId);
-  const currentValue = property === "title" ? (item.title ?? "") : String(item.value ?? "");
+  const currentValue =
+    property === "title" ? (item.title ?? "") : String(item.value ?? "");
 
   return (
     <input
@@ -29,7 +30,7 @@ export function TextField({
         void update(
           property === "title"
             ? { title: event.target.value }
-            : { value: event.target.value }
+            : { value: event.target.value },
         )
       }
     />

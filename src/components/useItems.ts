@@ -11,7 +11,14 @@ export function useItems(datasetId: string, parentId: string | null) {
 
   useEffect(() => {
     setError(null);
-    return subscribeToDataset(dataSource, worldId, resolvedParentId, datasetId, setItems, setError);
+    return subscribeToDataset(
+      dataSource,
+      worldId,
+      resolvedParentId,
+      datasetId,
+      setItems,
+      setError,
+    );
   }, [dataSource, datasetId, resolvedParentId, worldId]);
 
   return { items, error };
