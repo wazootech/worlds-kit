@@ -1,4 +1,13 @@
-# WorldsKit
+<p align="center">
+  <a href="https://docs.wazoo.dev">
+    <img src="https://wazoo.dev/assets/wazoo.svg" alt="Wazoo Worlds" width="120" />
+  </a>
+  <br /><br />
+  <em>React composition library for building item-oriented interfaces on Worlds.</em>
+  <br /><br />
+  <a href="https://github.com/wazootech/worlds-kit"><img src="https://img.shields.io/badge/GitHub-black?logo=github" alt="GitHub" /></a>
+  <a href="https://deepwiki.com/wazootech/worlds-kit"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki" /></a>
+</p>
 
 A React composition library for building item-oriented interfaces on top of [Worlds](https://wazoo.dev/worlds). WorldsKit keeps the interaction model demonstrated in Alexander Obenauer's Lab Note 001—implicit item binding, datasets, sortable datasets, add actions, and `Source`/`Detail` composition—while using Worlds as the RDF-native persistence and query layer.
 
