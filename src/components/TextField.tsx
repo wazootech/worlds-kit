@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useParentItem } from "../context";
 import { useBoundItem } from "./useBoundItem";
 
@@ -13,7 +14,7 @@ export function TextField({
   parentId?: string;
   placeholder?: string;
   property?: "title" | "value";
-}) {
+}): ReactNode {
   const contextItemId = useParentItem();
   const targetId = itemId ?? contextItemId;
   if (!targetId) return null;

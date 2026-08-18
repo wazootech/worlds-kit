@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useParentItem } from "../context";
 import { useBoundItem } from "./useBoundItem";
 
@@ -9,7 +10,7 @@ export function Checkbox({
   itemId?: string;
   datasetId?: string;
   parentId?: string;
-}) {
+}): ReactNode {
   const contextItemId = useParentItem();
   const targetId = itemId ?? contextItemId;
   if (!targetId) return null;

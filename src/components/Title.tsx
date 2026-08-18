@@ -1,7 +1,8 @@
+import type { ReactNode } from "react";
 import { useParentItem } from "../context";
 import { useBoundItem } from "./useBoundItem";
 
-export function Title() {
+export function Title(): ReactNode {
   const id = useParentItem();
   if (!id) return null;
   const { item } = useBoundItem(id, "lists", "root");

@@ -1,4 +1,4 @@
-import { cloneElement, useState } from "react";
+import { cloneElement, useState, type ReactNode } from "react";
 import { useParentItem, useWorldsKit } from "../context";
 import {
   addDatasetItem,
@@ -94,10 +94,10 @@ function DatasetView({
   );
 }
 
-export function Dataset(props: DatasetProps) {
+export function Dataset(props: DatasetProps): ReactNode {
   return <DatasetView {...props} />;
 }
 
-export function DatasetSortable(props: DatasetProps) {
+export function DatasetSortable(props: DatasetProps): ReactNode {
   return <DatasetView {...props} sortable />;
 }

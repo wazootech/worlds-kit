@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  type Context,
+  type ReactNode,
+} from "react";
 import type { WorldsKitDataSource } from "./types";
 
 type WorldsKitState = {
@@ -8,7 +14,7 @@ type WorldsKitState = {
   setActiveSourceId: (id: string | null) => void;
 };
 const WorldsKitContext = createContext<WorldsKitState | null>(null);
-const ItemContext = createContext<string | null>(null);
+const ItemContext: Context<string | null> = createContext<string | null>(null);
 
 export function WorldsKitApp({
   worldId,
@@ -18,7 +24,7 @@ export function WorldsKitApp({
   worldId: string;
   dataSource: WorldsKitDataSource;
   children: ReactNode;
-}) {
+}): ReactNode {
   const [activeSourceId, setActiveSourceId] = useState<string | null>(null);
   return (
     <WorldsKitContext.Provider
@@ -29,7 +35,7 @@ export function WorldsKitApp({
   );
 }
 
-export function useWorldsKit() {
+export function useWorldsKit(): WorldsKitState {
   const value = useContext(WorldsKitContext);
   if (!value)
     throw new Error(
@@ -38,10 +44,10 @@ export function useWorldsKit() {
   return value;
 }
 
-export function useSelectedItem() {
+export function useSelectedItem(): string | null {
   return useContext(ItemContext);
 }
-export function useParentItem() {
+export function useParentItem(): string | null {
   return useContext(ItemContext);
 }
 export const ItemProvider = ItemContext.Provider;
