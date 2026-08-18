@@ -5,6 +5,8 @@
   <br /><br />
   <em>React composition library for building item-oriented interfaces on Worlds.</em>
   <br /><br />
+  <a href="https://jsr.io/@worlds/kit"><img src="https://jsr.io/badges/@worlds/kit" alt="JSR" /></a>
+  <a href="https://jsr.io/@worlds/kit/score"><img src="https://jsr.io/badges/@worlds/kit/score" alt="JSR Score" /></a>
   <a href="https://github.com/wazootech/worlds-kit"><img src="https://img.shields.io/badge/GitHub-black?logo=github" alt="GitHub" /></a>
   <a href="https://deepwiki.com/wazootech/worlds-kit"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki" /></a>
 </p>
@@ -23,10 +25,16 @@ A React composition library for building item-oriented interfaces on top of [Wor
 - `Todo` and `SimpleRow`: small templates used by the reference demo.
 - `createWorldsKitDataSource`: a minimal HTTP data-source adapter for Worlds query and update operations. Inject a richer WorldsKit data source when you need subscriptions or application-specific transport.
 
+## Install
+
+```sh
+npx jsr add @worlds/kit
+```
+
 ## Quick start
 
 ```tsx
-import { createWorldsKitDataSource, DatasetSortable, Detail, SimpleRow, Source, Title, Todo, WorldsKitApp } from "@wazoo/worlds-kit";
+import { createWorldsKitDataSource, DatasetSortable, Detail, SimpleRow, Source, Title, Todo, WorldsKitApp } from "@worlds/kit";
 
 const dataSource = createWorldsKitDataSource("https://your-worlds-endpoint.example");
 
@@ -73,7 +81,7 @@ export type WorldsKitDataSource = {
 
 ## Scope and limitations
 
-This first Worlds-backed implementation mirrors the demonstrated interaction model, not undisclosed internals. It does not yet provide authentication, authorization policy, schema validation, deletion UI, offline conflict resolution, mutation history, or a public package release workflow. Production applications must supply a properly scoped WorldsKit data source and enforce authorization in the Worlds service.
+This first Worlds-backed implementation mirrors the demonstrated interaction model, not undisclosed internals. It does not yet provide authentication, authorization policy, schema validation, deletion UI, offline conflict resolution, or mutation history. Production applications must supply a properly scoped WorldsKit data source and enforce authorization in the Worlds service.
 
 The later item graph, references, views, actions, services, mutations, modules, and fluid interaction roadmap remains intentionally separate from this compatibility foundation. See `ROADMAP.md` for the proposed next steps and the corresponding Lab Note references.
 
