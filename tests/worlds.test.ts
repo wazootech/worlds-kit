@@ -81,15 +81,12 @@ test("createWorldsKitDataSource resolves dynamic worldId endpoint URLs", async (
   }) as typeof globalThis.fetch;
 
   try {
-    const ds = createWorldsKitDataSource(
-      "https://worlds-api.wazoo.dev",
-      "my-token",
-    );
+    const ds = createWorldsKitDataSource("https://data.wazoo.dev", "my-token");
     await ds.query("SELECT * WHERE { ?s ?p ?o }", { worldId: "test-world" });
 
     assert.equal(
       requestedUrl,
-      "https://worlds-api.wazoo.dev/worlds/test-world/sparql",
+      "https://data.wazoo.dev/worlds/test-world/sparql",
     );
     assert.equal(requestHeaders.Authorization, "Bearer my-token");
     assert.equal(requestHeaders["Content-Type"], "application/json");

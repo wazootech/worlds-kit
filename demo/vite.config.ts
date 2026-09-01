@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://worlds-api.wazoo.dev",
+        target: "https://data.wazoo.dev",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
