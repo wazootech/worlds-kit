@@ -12,11 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
-      - run: npm install --ignore-scripts --no-audit --no-fund
-      - run: npm run ci
-      - run: npm --prefix demo install --ignore-scripts --no-audit --no-fund
-      - run: npm --prefix demo run build
+          cache: pnpm
+      # Installs the library and demo/ together (pnpm-workspace.yaml).
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm run ci
+      - run: pnpm --filter worlds-kit-demo run build
