@@ -58,9 +58,8 @@ The adapter uses RDF identifiers and predicates under the `https://wazoo.dev/wor
 ## Demo
 
 ```sh
-cd demo
-npm install
-npm run dev
+pnpm install
+pnpm --filter worlds-kit-demo dev
 ```
 
 The demo expects a Worlds-compatible HTTP endpoint in `VITE_WORLDS_ENDPOINT` and an optional `VITE_WORLDS_TOKEN`. It is deliberately a small composition example, not a hosted production app.

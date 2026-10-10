@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "A React component library for composing Worlds-backed interfaces with implicit persistence and master-detail selection.",
   "type": "module",
+  "packageManager": "pnpm@12.11.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -23,7 +24,7 @@
     "lint": "eslint .",
     "build": "tsc -p tsconfig.library.json",
     "test": "tsx --test tests/*.test.ts",
-    "ci": "npm run format:check && npm run lint && npm run check && npm test && npm run build"
+    "ci": "pnpm run format:check && pnpm run lint && pnpm run check && pnpm test && pnpm run build"
   },
   "peerDependencies": {
     "react": ">=18",
