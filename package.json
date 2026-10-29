@@ -24,7 +24,7 @@
     "lint": "eslint . --max-warnings 0",
     "build": "tsc -p tsconfig.library.json",
     "test": "tsx --test tests/*.test.ts",
-    "ci": "pnpm run format:check && pnpm run lint && pnpm run check && pnpm test && pnpm run build"
+    "ci": "pnpm run format:check && pnpm run lint && pnpm run check && pnpm test && pnpm run build && pnpm --filter worlds-kit-demo exec tsc --noEmit -p tsconfig.json"
   },
   "peerDependencies": {
     "react": ">=18",

@@ -21,7 +21,4 @@ jobs:
       # Installs the library and demo/ together (pnpm-workspace.yaml).
       - run: pnpm install --frozen-lockfile --ignore-scripts
       - run: pnpm run ci
-      # demo/ is its own TypeScript project (vite/client types, resolves the
-      # built @wazoo/worlds-kit), so it is type-checked against its own config.
-      - run: pnpm --filter worlds-kit-demo exec tsc --noEmit -p tsconfig.json
       - run: pnpm --filter worlds-kit-demo run build
