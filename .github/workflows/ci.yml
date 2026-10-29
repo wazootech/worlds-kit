@@ -18,5 +18,9 @@ jobs:
           bun-version: "1.x"
       - run: bun install --frozen-lockfile --ignore-scripts
       - run: bun run ci
+      # demo/ is its own TypeScript project (vite/client types, resolves the
+      # built @wazoo/worlds-kit), so it is type-checked against its own config.
+      - run: bunx tsc --noEmit -p tsconfig.json
+        working-directory: demo
       - run: bun run --bun build
         working-directory: demo

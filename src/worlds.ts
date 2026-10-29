@@ -1,8 +1,4 @@
-import type {
-  WorldsKitDataSource,
-  WorldsKitDataSourceOptions,
-  WorldsKitQueryResult,
-} from "./types";
+import type { WorldsKitDataSource, WorldsKitDataSourceOptions } from "./types";
 
 const namespace = "https://kit.wazoo.dev/";
 const xsdNamespace = "http://www.w3.org/2001/XMLSchema#";
@@ -41,7 +37,7 @@ export function createWorldsKitDataSource(
   };
 
   return {
-    async query<T>(sparql: string, options?: WorldsKitDataSourceOptions) {
+    async query(sparql: string, options?: WorldsKitDataSourceOptions) {
       const url = resolveUrl(options?.worldId);
       const isWorldsApi = url.includes("/worlds/");
       const response = await fetch(url, {
@@ -57,9 +53,9 @@ export function createWorldsKitDataSource(
       });
       if (!response.ok)
         throw new Error(`Worlds query failed (${response.status})`);
-      return (await response.json()) as T;
+      return (await response.json()) as unknown;
     },
-    async mutate<T>(update: string, options?: WorldsKitDataSourceOptions) {
+    async mutate(update: string, options?: WorldsKitDataSourceOptions) {
       const url = resolveUrl(options?.worldId);
       const isWorldsApi = url.includes("/worlds/");
       const response = await fetch(url, {
@@ -77,11 +73,11 @@ export function createWorldsKitDataSource(
       if (!response.ok)
         throw new Error(`Worlds mutation failed (${response.status})`);
       const responseText = await response.text();
-      return (responseText ? JSON.parse(responseText) : undefined) as T;
+      return responseText ? (JSON.parse(responseText) as unknown) : undefined;
     },
-    subscribe<T = WorldsKitQueryResult>(
+    subscribe(
       sparql: string,
-      onData: (result: T) => void,
+      onData: (result: unknown) => void,
       onError: (error: Error) => void,
       options?: WorldsKitDataSourceOptions & { pollIntervalMs?: number },
     ) {
@@ -90,7 +86,7 @@ export function createWorldsKitDataSource(
 
       const run = async () => {
         try {
-          const data = await this.query<T>(sparql, options);
+          const data = await this.query(sparql, options);
           if (active) onData(data);
         } catch (err) {
           if (active && (err as Error).name !== "AbortError") {

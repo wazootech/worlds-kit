@@ -36,18 +36,17 @@ export type WorldsKitDataSourceOptions = {
   worldId?: string;
 };
 
+// Results are parsed transport payloads; narrow them with `queryBindings`
+// rather than trusting a caller-chosen type parameter.
 export type WorldsKitDataSource = {
-  query<T = WorldsKitQueryResult>(
-    sparql: string,
-    options?: WorldsKitDataSourceOptions,
-  ): Promise<T>;
-  mutate<T = unknown>(
+  query(sparql: string, options?: WorldsKitDataSourceOptions): Promise<unknown>;
+  mutate(
     update: string,
     options?: WorldsKitDataSourceOptions,
-  ): Promise<T>;
-  subscribe?<T = WorldsKitQueryResult>(
+  ): Promise<unknown>;
+  subscribe?(
     sparql: string,
-    onData: (result: T) => void,
+    onData: (result: unknown) => void,
     onError: (error: Error) => void,
     options?: WorldsKitDataSourceOptions,
   ): WorldsKitSubscription;
