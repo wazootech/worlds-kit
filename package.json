@@ -18,7 +18,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "check": "tsc --noEmit -p tsconfig.library.json",
+    "check": "tsc --noEmit -p tsconfig.json",
     "format": "prettier \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" --write",
     "format:check": "prettier \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" --check",
     "lint": "eslint . --max-warnings 0",
