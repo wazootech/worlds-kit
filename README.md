@@ -70,9 +70,9 @@ The demo expects a Worlds-compatible HTTP endpoint in `VITE_WORLDS_ENDPOINT` and
 
 ```ts
 export type WorldsKitDataSource = {
-  query: <T = unknown>(sparql: string, options?: { signal?: AbortSignal }) => Promise<T>;
-  mutate: <T = unknown>(update: string, options?: { signal?: AbortSignal }) => Promise<T>;
-  subscribe?: <T = unknown>(sparql: string, onData: (data: T) => void, onError: (error: Error) => void) => () => void;
+  query: (sparql: string, options?: { signal?: AbortSignal }) => Promise<unknown>;
+  mutate: (update: string, options?: { signal?: AbortSignal }) => Promise<unknown>;
+  subscribe?: (sparql: string, onData: (data: unknown) => void, onError: (error: Error) => void) => () => void;
 };
 ```
 

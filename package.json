@@ -1,6 +1,6 @@
 {
   "name": "@wazoo/worlds-kit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A React component library for composing Worlds-backed interfaces with implicit persistence and master-detail selection.",
   "type": "module",
   "packageManager": "pnpm@12.11.2",
@@ -18,13 +18,13 @@
     "LICENSE"
   ],
   "scripts": {
-    "check": "tsc --noEmit -p tsconfig.library.json",
+    "check": "tsc --noEmit -p tsconfig.json",
     "format": "prettier \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" --write",
     "format:check": "prettier \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" --check",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "build": "tsc -p tsconfig.library.json",
     "test": "tsx --test tests/*.test.ts",
-    "ci": "pnpm run format:check && pnpm run lint && pnpm run check && pnpm test && pnpm run build"
+    "ci": "pnpm run format:check && pnpm run lint && pnpm run check && pnpm test && pnpm run build && pnpm --filter worlds-kit-demo exec tsc --noEmit -p tsconfig.json"
   },
   "peerDependencies": {
     "react": ">=18",

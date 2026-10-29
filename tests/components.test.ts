@@ -38,15 +38,15 @@ test("ItemProvider passes item ID through context", () => {
   }
 
   const html = renderToStaticMarkup(
-    createElement(
-      WorldsKitApp,
-      { worldId: "test-world", dataSource: mockDataSource },
-      createElement(
+    createElement(WorldsKitApp, {
+      worldId: "test-world",
+      dataSource: mockDataSource,
+      children: createElement(
         ItemProvider,
         { value: "item-xyz" },
         createElement(Consumer),
       ),
-    ),
+    }),
   );
 
   assert.equal(capturedId, "item-xyz");
@@ -70,13 +70,13 @@ test("SimpleRow renders static and editable title markup", () => {
 
 test("Todo component composes Checkbox and TextField inside ItemProvider", () => {
   const html = renderToStaticMarkup(
-    createElement(
-      WorldsKitApp,
-      { worldId: "test-world", dataSource: mockDataSource },
-      createElement(Todo, {
+    createElement(WorldsKitApp, {
+      worldId: "test-world",
+      dataSource: mockDataSource,
+      children: createElement(Todo, {
         data: { id: "item-todo-1", title: "Buy Milk", completed: true },
       }),
-    ),
+    }),
   );
 
   assert.match(html, /class="todo-row"/);

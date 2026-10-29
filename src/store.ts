@@ -2,7 +2,6 @@ import type {
   WorldsKitDataSource,
   WorldsKitItem,
   ItemUpdates,
-  WorldsKitQueryResult,
   WorldsKitSubscription,
 } from "./types";
 import {
@@ -70,9 +69,7 @@ export function subscribeToDataset(
   onError: (error: Error) => void,
 ): WorldsKitSubscription {
   const sparql = itemQuery(worldId, parentId, datasetId);
-  const processResult = (
-    result: WorldsKitQueryResult<Record<string, unknown>>,
-  ) => {
+  const processResult = (result: unknown) => {
     const items = queryBindings(result).map((row) =>
       normalizeItem(row, worldId),
     );
@@ -80,16 +77,11 @@ export function subscribeToDataset(
     onItems(items);
   };
   if (dataSource.subscribe)
-    return dataSource.subscribe<WorldsKitQueryResult<Record<string, unknown>>>(
-      sparql,
-      processResult,
-      onError,
-      { worldId },
-    );
+    return dataSource.subscribe(sparql, processResult, onError, { worldId });
   let active = true;
   const controller = new AbortController();
   void dataSource
-    .query<WorldsKitQueryResult<Record<string, unknown>>>(sparql, {
+    .query(sparql, {
       worldId,
       signal: controller.signal,
     })
@@ -184,7 +176,7 @@ export function subscribeToValue<T>(
 ): WorldsKitSubscription {
   const sparql = `SELECT ?value WHERE { ${encodeIri(itemIri(worldId, itemId))} <${predicateIri("value")}> ?value }`;
   if (dataSource.subscribe)
-    return dataSource.subscribe<WorldsKitQueryResult<Record<string, unknown>>>(
+    return dataSource.subscribe(
       sparql,
       (result) =>
         onValue((bindingValue(queryBindings(result)[0]?.value) ?? "") as T),
@@ -194,7 +186,7 @@ export function subscribeToValue<T>(
   let active = true;
   const controller = new AbortController();
   void dataSource
-    .query<WorldsKitQueryResult<Record<string, unknown>>>(sparql, {
+    .query(sparql, {
       worldId,
       signal: controller.signal,
     })
