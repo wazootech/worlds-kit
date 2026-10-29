@@ -143,12 +143,24 @@ export function sparqlValue(value: unknown) {
   return literal(value);
 }
 
-export function queryBindings<T = Record<string, unknown>>(result: any): T[] {
+export function queryBindings<T = Record<string, unknown>>(
+  result: unknown,
+): T[] {
   if (!result) return [];
-  if (Array.isArray(result)) return result;
-  if (Array.isArray(result.results?.bindings)) return result.results.bindings;
-  if (Array.isArray(result.results)) return result.results;
-  if (Array.isArray(result.bindings)) return result.bindings;
+  if (Array.isArray(result)) return result as T[];
+  if (typeof result !== "object") return [];
+  const { results, bindings } = result as {
+    results?: unknown;
+    bindings?: unknown;
+  };
+  if (
+    typeof results === "object" &&
+    results !== null &&
+    Array.isArray((results as { bindings?: unknown }).bindings)
+  )
+    return (results as { bindings: T[] }).bindings;
+  if (Array.isArray(results)) return results as T[];
+  if (Array.isArray(bindings)) return bindings as T[];
   return [];
 }
 
