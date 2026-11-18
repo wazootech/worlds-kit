@@ -14,15 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v6
+      - uses: oven-sh/setup-bun@v2
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: pnpm
       # jsr publish type-checks the package with Deno and resolves the bare
       # `react`/`react-dom` imports from node_modules, so install deps first.
-      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: bun install --frozen-lockfile --ignore-scripts
       - name: Publish dry run (smoke)
-        run: pnpm dlx jsr publish --dry-run
+        run: bunx jsr publish --dry-run
       - name: Publish package
-        run: pnpm dlx jsr publish
+        run: bunx jsr publish

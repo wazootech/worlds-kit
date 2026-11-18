@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "A React component library for composing Worlds-backed interfaces with implicit persistence and master-detail selection.",
   "type": "module",
-  "packageManager": "pnpm@12.11.2",
+  "packageManager": "bun@1.4.4",
+  "workspaces": ["demo"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -23,8 +24,8 @@
     "format:check": "prettier \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" --check",
     "lint": "eslint .",
     "build": "tsc -p tsconfig.library.json",
-    "test": "tsx --test tests/*.test.ts",
-    "ci": "pnpm run format:check && pnpm run lint && pnpm run check && pnpm test && pnpm run build"
+    "test": "bun test tests/*.test.ts",
+    "ci": "bun run format:check && bun run lint && bun run check && bun run test && bun run build"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -39,7 +40,6 @@
     "prettier": "^3.9.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.24.0"
   }

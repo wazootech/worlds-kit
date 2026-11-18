@@ -12,12 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: pnpm
-      # Installs the library and demo/ together (pnpm-workspace.yaml).
-      - run: pnpm install --frozen-lockfile --ignore-scripts
-      - run: pnpm run ci
-      - run: pnpm --filter worlds-kit-demo run build
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile --ignore-scripts
+      - run: bun run ci
+      - run: bun run --bun build
+        working-directory: demo
