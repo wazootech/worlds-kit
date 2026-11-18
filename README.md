@@ -34,37 +34,19 @@ npx jsr add @worlds/kit
 ## Quick start
 
 ```tsx
-import {
-  createWorldsKitDataSource,
-  DatasetSortable,
-  Detail,
-  SimpleRow,
-  Source,
-  Title,
-  Todo,
-  WorldsKitApp,
-} from "@worlds/kit";
+import { createWorldsKitDataSource, DatasetSortable, Detail, SimpleRow, Source, Title, Todo, WorldsKitApp } from "@worlds/kit";
 
-const dataSource = createWorldsKitDataSource(
-  "https://your-worlds-endpoint.example",
-);
+const dataSource = createWorldsKitDataSource("https://your-worlds-endpoint.example");
 
 export default function App() {
   return (
     <WorldsKitApp worldId="my-world" dataSource={dataSource}>
       <Source>
-        <DatasetSortable
-          itemId="lists"
-          template={<SimpleRow editable />}
-          addButton={<button>Add a list</button>}
-        />
+        <DatasetSortable itemId="lists" template={<SimpleRow editable />} addButton={<button>Add a list</button>} />
       </Source>
       <Detail>
         <Title />
-        <DatasetSortable
-          template={<Todo />}
-          addButton={<button>Add a todo...</button>}
-        />
+        <DatasetSortable template={<Todo />} addButton={<button>Add a todo...</button>} />
       </Detail>
     </WorldsKitApp>
   );
@@ -74,8 +56,6 @@ export default function App() {
 The adapter uses RDF identifiers and predicates under the `https://wazoo.dev/worlds-kit/` namespace. The list/detail demo models list records as members of the `lists` dataset under `root`; todo records use the selected list item as their parent. The exact Worlds endpoint and authentication mechanism are intentionally injected through `WorldsKitDataSource` so the UI library does not own deployment or credentials.
 
 ## Demo
-
-Use Bun 1.4.4 or later and run these commands from the repository root.
 
 ```sh
 bun install
@@ -92,19 +72,9 @@ The demo expects a Worlds-compatible HTTP endpoint in `VITE_WORLDS_ENDPOINT` and
 
 ```ts
 export type WorldsKitDataSource = {
-  query: <T = unknown>(
-    sparql: string,
-    options?: { signal?: AbortSignal },
-  ) => Promise<T>;
-  mutate: <T = unknown>(
-    update: string,
-    options?: { signal?: AbortSignal },
-  ) => Promise<T>;
-  subscribe?: <T = unknown>(
-    sparql: string,
-    onData: (data: T) => void,
-    onError: (error: Error) => void,
-  ) => () => void;
+  query: <T = unknown>(sparql: string, options?: { signal?: AbortSignal }) => Promise<T>;
+  mutate: <T = unknown>(update: string, options?: { signal?: AbortSignal }) => Promise<T>;
+  subscribe?: <T = unknown>(sparql: string, onData: (data: T) => void, onError: (error: Error) => void) => () => void;
 };
 ```
 
