@@ -9,7 +9,7 @@ interfaces. `demo/` is a separate Vite app that consumes the built package.
 
 Family-wide rules live in the [wazootech workspace constitution](https://github.com/wazootech/workspace/blob/main/AGENTS.md#code-health-standards); this repo's specifics:
 
-- Before pushing, run `pnpm run ci` (prettier, eslint with `--max-warnings 0`,
+- Before pushing, run `bun run ci` (prettier, eslint with `--max-warnings 0`,
   `tsc` over `src/` and `tests/`, tests, build, then the `demo/` typecheck).
 - `@typescript-eslint/no-explicit-any` is an error; use real types or
   `unknown`.
