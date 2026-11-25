@@ -65,12 +65,6 @@ An import map lets you use the same package specifier as the quick start.
 </script>
 ```
 
-To pin the exact ES2022 build for caching, use the versioned module URL from the CDN's `X-ESM-Path` response header.
-
-```js
-import { createWorldsKitDataSource } from "https://esm.sh/@jsr/worlds__kit@0.1.0/es2022/worlds__kit.mjs";
-```
-
 ## Quick start
 
 ```tsx
