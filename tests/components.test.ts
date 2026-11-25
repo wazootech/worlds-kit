@@ -2,16 +2,15 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import { SimpleRow, Todo } from "@/components";
 import {
   ItemProvider,
   WorldsKitApp,
   useParentItem,
   useSelectedItem,
   useWorldsKit,
-} from "../src/context";
-import { SimpleRow } from "../src/components/SimpleRow";
-import { Todo } from "../src/components/Todo";
-import type { WorldsKitDataSource } from "../src/types";
+} from "@/context";
+import type { WorldsKitDataSource } from "@/types";
 
 const mockDataSource: WorldsKitDataSource = {
   query: async () => ({ results: [] }),

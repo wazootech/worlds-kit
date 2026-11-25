@@ -2,8 +2,14 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { Dataset, DatasetSortable, Detail, Source, WorldsKitApp } from "../src";
-import type { WorldsKitDataSource } from "../src/types";
+import {
+  Dataset,
+  DatasetSortable,
+  Detail,
+  Source,
+  WorldsKitApp,
+} from "@/index";
+import type { WorldsKitDataSource } from "@/types";
 
 const mockDataSource: WorldsKitDataSource = {
   query: async () => ({ results: [] }),

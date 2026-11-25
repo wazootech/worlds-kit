@@ -7,8 +7,8 @@ import {
   updateDatasetItem,
   updateDatasetOrder,
   updateItem,
-} from "../src/store";
-import type { WorldsKitDataSource } from "../src/types";
+} from "@/store";
+import type { WorldsKitDataSource } from "@/types";
 
 function fakeClient(result: unknown = { bindings: [] }) {
   const queries: string[] = [];

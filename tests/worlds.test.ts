@@ -9,7 +9,7 @@ import {
   literal,
   predicateIri,
   queryBindings,
-} from "../src/worlds";
+} from "@/worlds";
 
 test("encodeIri wraps IRIs in angle brackets", () => {
   assert.equal(
