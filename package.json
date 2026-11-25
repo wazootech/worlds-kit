@@ -1,6 +1,6 @@
 {
   "name": "@wazoo/worlds-kit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A React component library for composing Worlds-backed interfaces with implicit persistence and master-detail selection.",
   "type": "module",
   "packageManager": "bun@1.4.4",
@@ -19,10 +19,10 @@
     "LICENSE"
   ],
   "scripts": {
-    "check": "tsc --noEmit -p tsconfig.library.json",
+    "check": "tsc --noEmit -p tsconfig.json",
     "format": "prettier \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" --write",
     "format:check": "prettier \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" --check",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "build": "tsc -p tsconfig.library.json",
     "test": "bun test tests/*.test.ts",
     "ci": "bun run format:check && bun run lint && bun run check && bun run test && bun run build"
