@@ -27,8 +27,42 @@ A React composition library for building item-oriented interfaces on top of [Wor
 
 ## Install
 
+### Package managers
+
 ```sh
+# Native JSR support
+deno add jsr:@worlds/kit
+pnpm add jsr:@worlds/kit  # pnpm 10.9+
+yarn add jsr:@worlds/kit  # Yarn 4.9+
+
+# JSR npm compatibility layer
+bunx jsr add @worlds/kit
 npx jsr add @worlds/kit
+pnpm dlx jsr add @worlds/kit  # older pnpm
+yarn dlx jsr add @worlds/kit  # earlier Yarn 4 releases
+```
+
+### CDN (browser / no build step)
+
+[esm.sh](https://esm.sh) serves WorldsKit as an ES module for browsers without an install or build step.
+
+```js
+import { createWorldsKitDataSource } from "https://esm.sh/jsr/@worlds/kit@0.1.0";
+```
+
+An import map lets you use the same package specifier as the quick start.
+
+```html
+<script type="importmap">
+  {
+    "imports": {
+      "@worlds/kit": "https://esm.sh/jsr/@worlds/kit@0.1.0"
+    }
+  }
+</script>
+<script type="module">
+  import { createWorldsKitDataSource } from "@worlds/kit";
+</script>
 ```
 
 ## Quick start
