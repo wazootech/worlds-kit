@@ -16,6 +16,7 @@ Family-wide rules live in the [wazootech workspace constitution](https://github.
 - `WorldsKitDataSource` methods resolve to `unknown`; callers narrow with
   `queryBindings` rather than passing a type argument.
 - Actions are pinned to commit SHAs, and Node comes from `.node-version`.
-- `secret-scan.yml` (gitleaks) runs on every PR; `code-health.yml` only warns
-  about file length and unlinked TODOs; `CODEOWNERS` assigns review.
+- `secret-scan.yml` (gitleaks) runs on every PR; `code-health.yml` fails on a file over 120 lines of code (300 for tests);
+  files that were already over it are listed there with a ceiling that only
+  shrinks. A `TODO`/`FIXME` without an issue link only warns. `CODEOWNERS` assigns review.
 - Publishing to JSR runs from `main` and needs approval.
