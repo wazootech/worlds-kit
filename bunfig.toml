@@ -1,2 +1,6 @@
 [run]
 bun = true
+
+[install]
+# One-day supply-chain delay: skip releases published in the last 24 hours.
+minimumReleaseAge = 86400
